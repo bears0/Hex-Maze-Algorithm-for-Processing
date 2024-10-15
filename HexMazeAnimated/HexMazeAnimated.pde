@@ -32,6 +32,10 @@ void setup() {
   for (int j = 0; j < rows; j++) {
     for (int i = 0; i < cols; i++) {
       Cell cell = new Cell(i, j);
+      if(i == 0 && j == 0)
+        cell.setStart();
+      if(i == cols-1 && j == rows-1)
+        cell.setEnd();
       cellList.add(cell);
     }
   }

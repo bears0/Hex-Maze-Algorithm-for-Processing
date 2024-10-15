@@ -7,6 +7,8 @@ class Cell {
   boolean visited = false;
   PVector point = new PVector();
   PVector[] points = new PVector[6];
+  boolean mazeStart = false;
+  boolean mazeEnd = false;
 
   Cell(int i, int j) {
     this.i = i;
@@ -20,6 +22,21 @@ class Cell {
     for (int i = 0; i < 6; i++) {
       noStroke();
       fill(255,0,0);
+      beginShape(TRIANGLES);
+      vertex(this.point.x, this.point.y);
+      vertex(points[i].x, points[i].y);
+      vertex(points[(i+1) % 6].x, points[(i+1) % 6].y);
+      endShape();
+    }
+  }
+  
+  void fillColor(color c) {
+    for (int i = 0; i < 6; i++) {
+      points[i] = pointy_hex_corner(point, cellSize, i);
+    }
+    for (int i = 0; i < 6; i++) {
+      noStroke();
+      fill(c);
       beginShape(TRIANGLES);
       vertex(this.point.x, this.point.y);
       vertex(points[i].x, points[i].y);
@@ -128,6 +145,12 @@ class Cell {
       //stroke(0,0,255);
       line(points[5].x, points[5].y, points[0].x, points[0].y); // Left
     }
+    
+    if(this.mazeStart)
+      fillColor(color(0,255,0));
+      
+    if(this.mazeEnd)
+      fillColor(color(255,0,0));
   }
 
   PVector pointy_hex_corner(PVector center, int size, int i) {
@@ -135,5 +158,12 @@ class Cell {
     var angle_rad = PI / 180 * angle_deg;
     return new PVector(center.x + size * cos(angle_rad),
       center.y + size * sin(angle_rad));
+  }
+  
+  void setStart(){
+    this.mazeStart = true;
+  }
+  void setEnd(){
+    this.mazeEnd = true;
   }
 }
