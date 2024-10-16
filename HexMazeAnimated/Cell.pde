@@ -1,4 +1,7 @@
 // This class contains data for each individual cell, as well as methods for drawing each cell
+// Wall order: Right side, bottom right, bottom left, left, top left, top right
+// The right wall is first (index 0) and goes in a clockwise direction
+
 
 class Cell {
   int i = 0;
@@ -121,29 +124,34 @@ class Cell {
      }
      }
      */
-    if (this.walls[0]) {
+    if (this.walls[0]) { // Right wall
       //stroke(255);
-      line(points[0].x, points[0].y, points[1].x, points[1].y); // Top
+      line(points[0].x, points[0].y, points[1].x, points[1].y); // Right wall
     }
-    if (this.walls[1]) {
+    
+    if (this.walls[1]) { // Bottom right wall
       //stroke(255,0,0);
-      line(points[1].x, points[1].y, points[2].x, points[2].y); // Right
+      line(points[1].x, points[1].y, points[2].x, points[2].y); // Bottom right wall
     }
-    if (this.walls[2]) {
+    
+    if (this.walls[2]) { // Bottom left wall
       //stroke(0,255,0);
-      line(points[2].x, points[2].y, points[3].x, points[3].y); // Bottom
+      line(points[2].x, points[2].y, points[3].x, points[3].y); // Bottom left wall
     }
-    if (this.walls[3]) {
+    
+    if (this.walls[3]) { // Left wall
       //stroke(0,0,255);
-      line(points[3].x, points[3].y, points[4].x, points[4].y); // Left
+      line(points[3].x, points[3].y, points[4].x, points[4].y); // Left wall
     }
-    if (this.walls[4]) {
+    
+    if (this.walls[4]) { // Top left wall
       //stroke(0,0,255);
-      line(points[4].x, points[4].y, points[5].x, points[5].y); // Left
+      line(points[4].x, points[4].y, points[5].x, points[5].y); // Top left wall
     }
-    if (this.walls[5]) {
+    
+    if (this.walls[5]) { // Top right wall
       //stroke(0,0,255);
-      line(points[5].x, points[5].y, points[0].x, points[0].y); // Left
+      line(points[5].x, points[5].y, points[0].x, points[0].y); // Top right wall
     }
     
     if(this.mazeStart)
@@ -165,5 +173,20 @@ class Cell {
   }
   void setEnd(){
     this.mazeEnd = true;
+  }
+  
+  ArrayList<Line> getLines(){
+    ArrayList<Line> lines = new ArrayList<Line>();
+    for(int i = 0; i < 6; i++){ // For each wall, create a line based on the position of the walls.
+      if(walls[i]){
+        float x1 = points[i].x;
+        float y1 = points[i].y;
+        float x2 = points[(i+1)%6].x;
+        float y2 = points[(i+1)%6].y;
+        Line l = new Line(x1,y1,x2,y2,3,"black");
+        lines.add(l);
+      }
+    }
+    return lines;
   }
 }
